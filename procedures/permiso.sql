@@ -20,6 +20,7 @@ permiso:BEGIN
     DECLARE PPOST TINYINT(1) DEFAULT 0;
     DECLARE PPUT TINYINT(1) DEFAULT 0;
     DECLARE DDELETE TINYINT(1) DEFAULT 0;
+    DECLARE BBLOQUEO TINYINT(1) DEFAULT 0;
     DECLARE EESTATUS TINYINT(1) DEFAULT 1;
 
     DECLARE MMAPA CURSOR FOR (
@@ -30,6 +31,7 @@ permiso:BEGIN
         `post`,
         `put`,
         `delete`,
+        `bloqueo`,
         `estatus`
         FROM `mapa`
         WHERE
@@ -45,10 +47,15 @@ permiso:BEGIN
     END;
 
     OPEN MMAPA;
-        FETCH MMAPA INTO IIDFUNCION, UURL, GGET, PPOST, PPUT, DDELETE, EESTATUS;
+        FETCH MMAPA INTO IIDFUNCION, UURL, GGET, PPOST, PPUT, DDELETE, BBLOQUEO, EESTATUS;
     CLOSE MMAPA;
 
     /*-- VALIDACIONES --*/
+    IF (BBLOQUEO = 1 AND EESTATUS = 1) THEN
+        SELECT 403 AS state, "Permiso denegado." AS message;
+        LEAVE permiso;
+    END IF;
+
     IF(REGEXP_REPLACE(RRUTA, "/$", "") NOT REGEXP CONCAT(UURL, "$") AND EESTATUS = 1) THEN
         SELECT 200 AS state, "Permiso no requerido." AS message;
         LEAVE permiso;
