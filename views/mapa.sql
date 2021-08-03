@@ -20,6 +20,7 @@ CREATE VIEW `mapa` AS (
     `post`,
     `put`,
     `delete`,
+    `bloqueo`,
     (IF(`ePmso` > 0, `ePmso`, IF(`ePfl` > 0, `ePfl`, `eFijo`)) * `eFunc` * `eApp`) * `index`.`estatus` AS `estatus`
     FROM (
         SELECT
