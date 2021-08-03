@@ -36,6 +36,7 @@ BEGIN
     WHERE
     `pVisible` = 1
     AND `mapa`.`usuario` = BINARY(USSUARIO)
+    AND `mapa`.`bloqueo` = 0
     AND `mapa`.`estatus` = 1
     ORDER BY `menu`.`idApp`, `funciones`.`idFuncion`;
 END; //
