@@ -24,6 +24,7 @@ BEGIN
     `apps`.`visible` = 1
     /*AND `idUsuario` = IIDUSUARIO /*Activar si se va a utilizar el idUsuario*/
     AND `usuario` = BINARY(USSUARIO)
+    AND `mapa`.`bloqueo` = 0
     AND `mapa`.`estatus` = 1;
 END; //
 
